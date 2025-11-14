@@ -1,75 +1,217 @@
 ﻿@page "/stats"
 @inject AlbumService AlbumService
 
-<h3>📊 MusicBasterds Statistics</h3>
-
-<div class="row mt-4">
-    <!-- Weekly Stats -->
-    <div class="col-md-6">
-        <h5>🔥 Top Albums This Week</h5>
-        @if (TopAlbumsThisWeek.Count == 0)
-        {
-            <p class="text-muted">No albums uploaded this week.</p>
-        }
-        else
-        {
-            @foreach (var album in TopAlbumsThisWeek)
-            {
-                <div class="card mb-2">
-                    <div class="card-body">
-                        <h6 class="card-title">@album.Title - @album.Artist</h6>
-                        <p class="card-text mb-1">Rating: @album.AverageRating.ToString("F1")/100</p>
-                        <small class="text-muted">By @album.UserName</small>
-                    </div>
-                </div>
-            }
-        }
-
-        <h5 class="mt-4">🏆 Top Users This Week</h5>
-        @if (TopUsersThisWeek.Count == 0)
-        {
-            <p class="text-muted">No user activity this week.</p>
-        }
-        else
-        {
-            @foreach (var user in TopUsersThisWeek)
-            {
-                <div class="card mb-2">
-                    <div class="card-body">
-                        <h6 class="card-title">@user.Username</h6>
-                        <p class="card-text mb-1">Avg Rating: @user.AverageRating.ToString("F1")/100</p>
-                        <small class="text-muted">@user.AlbumCount album(s)</small>
-                    </div>
-                </div>
-            }
-        }
+<div class="neon-stats-container">
+    <div class="stats-header">
+        <h1 class="neon-title">📊 Statistics</h1>
+        <div class="title-underline"></div>
+        <p class="neon-subtitle">// Track the pulse of the MusicBasterds community</p>
     </div>
 
-    <!-- All Time Stats -->
-    <div class="col-md-6">
-        <h5>⭐ Top Albums of All Time</h5>
-        @foreach (var album in TopAlbumsAllTime)
-        {
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h6 class="card-title">@album.Title - @album.Artist</h6>
-                    <p class="card-text mb-1">Rating: @album.AverageRating.ToString("F1")/100</p>
-                    <small class="text-muted">By @album.UserName</small>
-                </div>
-            </div>
-        }
+    <div class="stats-grid">
+        <!-- Weekly Stats Column -->
+        <div class="stats-column">
+            <!-- Top Albums This Week -->
+            <div class="stat-section">
+                <h2 class="section-title">
+                    <span class="title-icon">🔥</span>
+                    <span>Top Albums This Week</span>
+                    <div class="title-line"></div>
+                </h2>
 
-        <h5 class="mt-4">🆕 Latest Albums</h5>
-        @foreach (var album in LatestAlbums)
-        {
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h6 class="card-title">@album.Title - @album.Artist</h6>
-                    <p class="card-text mb-1">@album.Genre</p>
-                    <small class="text-muted">Added @album.UploadDate.ToString("MMM dd, yyyy")</small>
+                @if (TopAlbumsThisWeek.Count == 0)
+                {
+                    <div class="empty-state">
+                        <div class="empty-icon">📭</div>
+                        <p class="empty-text">// No albums uploaded this week</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="cards-container">
+                        @for (int i = 0; i < TopAlbumsThisWeek.Count; i++)
+                        {
+                            var album = TopAlbumsThisWeek[i];
+                            <div class="neon-card album-card" style="animation-delay: @(i * 0.1)s">
+                                <div class="card-rank">@(i + 1)</div>
+                                <div class="card-content">
+                                    <h3 class="card-title">@album.Title</h3>
+                                    <div class="card-artist">@album.Artist</div>
+                                    <div class="card-stats">
+                                        <div class="stat-item">
+                                            <span class="stat-icon">⭐</span>
+                                            <span class="stat-value">@album.AverageRating.ToString("F1")</span>
+                                            <span class="stat-label">/100</span>
+                                        </div>
+                                        <div class="stat-divider">|</div>
+                                        <div class="stat-item">
+                                            <span class="stat-icon">👤</span>
+                                            <span class="stat-value">@album.UserName</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-glow"></div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+
+            <!-- Top Users This Week -->
+            <div class="stat-section">
+                <h2 class="section-title">
+                    <span class="title-icon">🏆</span>
+                    <span>Top Users This Week</span>
+                    <div class="title-line"></div>
+                </h2>
+
+                @if (TopUsersThisWeek.Count == 0)
+                {
+                    <div class="empty-state">
+                        <div class="empty-icon">😴</div>
+                        <p class="empty-text">// No user activity this week</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="cards-container">
+                        @for (int i = 0; i < TopUsersThisWeek.Count; i++)
+                        {
+                            var user = TopUsersThisWeek[i];
+                            <div class="neon-card user-card" style="animation-delay: @(i * 0.1)s">
+                                <div class="card-rank trophy">@(i + 1)</div>
+                                <div class="user-avatar">@user.Username[0]</div>
+                                <div class="card-content">
+                                    <h3 class="card-title">@user.Username</h3>
+                                    <div class="card-stats">
+                                        <div class="stat-item">
+                                            <span class="stat-icon">⭐</span>
+                                            <span class="stat-label">Avg Rating:</span>
+                                            <span class="stat-value">@user.AverageRating.ToString("F1")</span>
+                                            <span class="stat-label">/100</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-icon">📀</span>
+                                            <span class="stat-value">@user.AlbumCount</span>
+                                            <span class="stat-label">album@(user.AlbumCount != 1 ? "s" : "")</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-glow"></div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- All Time Stats Column -->
+        <div class="stats-column">
+            <!-- Top Albums All Time -->
+            <div class="stat-section">
+                <h2 class="section-title">
+                    <span class="title-icon">⭐</span>
+                    <span>Top Albums of All Time</span>
+                    <div class="title-line"></div>
+                </h2>
+
+                <div class="cards-container">
+                    @for (int i = 0; i < TopAlbumsAllTime.Count; i++)
+                    {
+                        var album = TopAlbumsAllTime[i];
+                        var rankClass = i == 0 ? "gold" : i == 1 ? "silver" : i == 2 ? "bronze" : "";
+                        <div class="neon-card album-card @rankClass" style="animation-delay: @(i * 0.1)s">
+                            <div class="card-rank @rankClass">@(i + 1)</div>
+                            <div class="card-content">
+                                <h3 class="card-title">@album.Title</h3>
+                                <div class="card-artist">@album.Artist</div>
+                                <div class="card-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-icon">⭐</span>
+                                        <span class="stat-value">@album.AverageRating.ToString("F1")</span>
+                                        <span class="stat-label">/100</span>
+                                    </div>
+                                    <div class="stat-divider">|</div>
+                                    <div class="stat-item">
+                                        <span class="stat-icon">👤</span>
+                                        <span class="stat-value">@album.UserName</span>
+                                    </div>
+                                </div>
+                            </div>
+                            @if (i < 3)
+                            {
+                                <div class="trophy-badge">
+                                    @(i == 0 ? "🥇" : i == 1 ? "🥈" : "🥉")
+                                </div>
+                            }
+                            <div class="card-glow"></div>
+                        </div>
+                    }
                 </div>
             </div>
-        }
+
+            <!-- Latest Albums -->
+            <div class="stat-section">
+                <h2 class="section-title">
+                    <span class="title-icon">🆕</span>
+                    <span>Latest Albums</span>
+                    <div class="title-line"></div>
+                </h2>
+
+                <div class="cards-container">
+                    @for (int i = 0; i < LatestAlbums.Count; i++)
+                    {
+                        var album = LatestAlbums[i];
+                        <div class="neon-card album-card latest" style="animation-delay: @(i * 0.1)s">
+                            <div class="new-badge">NEW</div>
+                            <div class="card-content">
+                                <h3 class="card-title">@album.Title</h3>
+                                <div class="card-artist">@album.Artist</div>
+                                <div class="card-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-icon">🎵</span>
+                                        <span class="stat-value">@album.Genre</span>
+                                    </div>
+                                    <div class="stat-divider">|</div>
+                                    <div class="stat-item">
+                                        <span class="stat-icon">📅</span>
+                                        <span class="stat-value">@album.UploadDate.ToString("MMM dd, yyyy")</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-glow"></div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Stats Bar -->
+    <div class="summary-bar">
+        <div class="summary-item">
+            <div class="summary-icon">📀</div>
+            <div class="summary-content">
+                <div class="summary-value">@(TopAlbumsAllTime.Count + LatestAlbums.Count)</div>
+                <div class="summary-label">Total Albums</div>
+            </div>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+            <div class="summary-icon">🔥</div>
+            <div class="summary-content">
+                <div class="summary-value">@TopAlbumsThisWeek.Count</div>
+                <div class="summary-label">This Week</div>
+            </div>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+            <div class="summary-icon">👥</div>
+            <div class="summary-content">
+                <div class="summary-value">@TopUsersThisWeek.Count</div>
+                <div class="summary-label">Active Users</div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -87,3 +229,536 @@
         TopUsersThisWeek = await AlbumService.GetTopUsersThisWeekAsync();
     }
 }
+
+<style>
+    .neon-stats-container {
+        background: #000000;
+        min-height: 100vh;
+        padding: 2rem;
+        color: #00ff41;
+        font-family: 'Courier New', monospace;
+    }
+
+    .stats-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .neon-title {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #00ff41;
+        text-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 40px #00ff41;
+        margin-bottom: 1rem;
+        letter-spacing: 3px;
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    @@keyframes pulse {
+        0%, 100%
+
+    {
+        text-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 40px #00ff41;
+    }
+
+    50% {
+        text-shadow: 0 0 20px #00ff41, 0 0 40px #00ff41, 0 0 80px #00ff41;
+    }
+
+    }
+
+    .title-underline {
+        height: 2px;
+        width: 150px;
+        margin: 0 auto 1rem;
+        background: linear-gradient(90deg, transparent, #00ff41, transparent);
+        box-shadow: 0 0 10px #00ff41;
+    }
+
+    .neon-subtitle {
+        font-size: 1.1rem;
+        color: #00ff41;
+        opacity: 0.8;
+        letter-spacing: 1px;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .stats-column {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .stat-section {
+        background: rgba(0, 255, 65, 0.02);
+        border: 2px solid #00ff41;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    @@keyframes fadeIn {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        color: #00ff41;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-shadow: 0 0 10px #00ff41;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .title-icon {
+        font-size: 1.8rem;
+        filter: drop-shadow(0 0 10px #00ff41);
+        animation: bounce 2s ease-in-out infinite;
+    }
+
+    @@keyframes bounce {
+        0%, 100%
+
+    {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+
+    }
+
+    .title-line {
+        flex: 1;
+        height: 2px;
+        background: linear-gradient(to right, #00ff41, transparent);
+        box-shadow: 0 0 5px #00ff41;
+    }
+
+    .cards-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .neon-card {
+        background: linear-gradient(135deg, rgba(0, 255, 65, 0.08), rgba(0, 255, 65, 0.02));
+        border: 2px solid #00ff41;
+        border-radius: 10px;
+        padding: 1.5rem;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        animation: slideIn 0.5s ease-out;
+    }
+
+    @@keyframes slideIn {
+        from
+
+    {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    }
+
+    .neon-card:hover {
+        background: linear-gradient(135deg, rgba(0, 255, 65, 0.15), rgba(0, 255, 65, 0.05));
+        box-shadow: 0 0 30px rgba(0, 255, 65, 0.4);
+        transform: translateX(5px);
+        border-color: #00ff41;
+    }
+
+    .neon-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.2), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .neon-card:hover::before {
+        left: 100%;
+    }
+
+    .card-glow {
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(0, 255, 65, 0.05), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .neon-card:hover .card-glow {
+        opacity: 1;
+    }
+
+    .album-card {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .card-rank {
+        width: 45px;
+        height: 45px;
+        background: linear-gradient(135deg, #00ff41, #00cc33);
+        color: #000000;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.6);
+        border: 2px solid #00ff41;
+    }
+
+        .card-rank.gold {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            border-color: #ffd700;
+        }
+
+        .card-rank.silver {
+            background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
+            box-shadow: 0 0 20px rgba(192, 192, 192, 0.8);
+            border-color: #c0c0c0;
+        }
+
+        .card-rank.bronze {
+            background: linear-gradient(135deg, #cd7f32, #e8a87c);
+            box-shadow: 0 0 20px rgba(205, 127, 50, 0.8);
+            border-color: #cd7f32;
+        }
+
+        .card-rank.trophy {
+            background: linear-gradient(135deg, #ff0040, #ff3366);
+            box-shadow: 0 0 15px rgba(255, 0, 64, 0.6);
+            border-color: #ff0040;
+        }
+
+    .card-content {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #00ff41;
+        margin-bottom: 0.3rem;
+        text-shadow: 0 0 5px #00ff41;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .card-artist {
+        font-size: 1rem;
+        opacity: 0.8;
+        margin-bottom: 0.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .card-stats {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        font-size: 0.9rem;
+    }
+
+    .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+
+    .stat-icon {
+        font-size: 1.1rem;
+        filter: drop-shadow(0 0 3px #00ff41);
+    }
+
+    .stat-value {
+        font-weight: bold;
+        color: #00ff41;
+        text-shadow: 0 0 5px #00ff41;
+    }
+
+    .stat-label {
+        opacity: 0.7;
+        font-size: 0.85rem;
+    }
+
+    .stat-divider {
+        opacity: 0.3;
+    }
+
+    .trophy-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 2rem;
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @@keyframes float {
+        0%, 100%
+
+    {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(10deg);
+    }
+
+    }
+
+    .new-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: linear-gradient(135deg, #00ff41, #00cc33);
+        color: #000000;
+        padding: 0.3rem 0.6rem;
+        font-size: 0.7rem;
+        font-weight: bold;
+        border-radius: 4px;
+        letter-spacing: 1px;
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
+        animation: pulse-badge 2s ease-in-out infinite;
+    }
+
+    @@keyframes pulse-badge {
+        0%, 100%
+
+    {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    }
+
+    .user-card {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .user-avatar {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #00ff41, #00cc33);
+        color: #000000;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+        box-shadow: 0 0 20px rgba(0, 255, 65, 0.6);
+        border: 2px solid #00ff41;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+        background: rgba(0, 255, 65, 0.02);
+        border: 1px dashed #00ff41;
+        border-radius: 8px;
+    }
+
+    .empty-icon {
+        font-size: 3rem;
+        opacity: 0.4;
+        margin-bottom: 1rem;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .empty-text {
+        color: #00ff41;
+        opacity: 0.6;
+        font-style: italic;
+        margin: 0;
+    }
+
+    .summary-bar {
+        background: linear-gradient(135deg, rgba(0, 255, 65, 0.1), rgba(0, 255, 65, 0.05));
+        border: 2px solid #00ff41;
+        border-radius: 12px;
+        padding: 2rem;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 2rem;
+        box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    .summary-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .summary-icon {
+        font-size: 2.5rem;
+        filter: drop-shadow(0 0 10px #00ff41);
+        animation: bounce 2s ease-in-out infinite;
+    }
+
+    .summary-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+
+    .summary-value {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #00ff41;
+        text-shadow: 0 0 15px #00ff41;
+        line-height: 1;
+    }
+
+    .summary-label {
+        font-size: 0.9rem;
+        opacity: 0.8;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .summary-divider {
+        width: 2px;
+        height: 50px;
+        background: linear-gradient(to bottom, transparent, #00ff41, transparent);
+        box-shadow: 0 0 10px #00ff41;
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 1024px) {
+        .stats-grid
+
+    {
+        grid-template-columns: 1fr;
+    }
+
+    }
+
+    @@media (max-width: 768px) {
+        .neon-stats-container
+
+    {
+        padding: 1rem;
+    }
+
+    .neon-title {
+        font-size: 2rem;
+    }
+
+    .stat-section {
+        padding: 1.5rem;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+    }
+
+    .card-title {
+        font-size: 1rem;
+    }
+
+    .summary-bar {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .summary-divider {
+        width: 80%;
+        height: 2px;
+        background: linear-gradient(to right, transparent, #00ff41, transparent);
+    }
+
+    .album-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .trophy-badge {
+        position: static;
+        margin-left: auto;
+    }
+
+    }
+
+    /* Special styling for top 3 all-time albums */
+    .neon-card.gold {
+        border-color: #ffd700;
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+    }
+
+        .neon-card.gold:hover {
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+        }
+
+    .neon-card.silver {
+        border-color: #c0c0c0;
+        box-shadow: 0 0 25px rgba(192, 192, 192, 0.4);
+    }
+
+        .neon-card.silver:hover {
+            box-shadow: 0 0 40px rgba(192, 192, 192, 0.6);
+        }
+
+    .neon-card.bronze {
+        border-color: #cd7f32;
+        box-shadow: 0 0 25px rgba(205, 127, 50, 0.4);
+    }
+
+        .neon-card.bronze:hover {
+            box-shadow: 0 0 40px rgba(205, 127, 50, 0.6);
+        }
+</style>

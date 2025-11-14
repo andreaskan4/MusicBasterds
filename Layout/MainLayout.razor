@@ -1,15 +1,51 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+    @if (ShowNavMenu)
+    {
+        <div class="sidebar">
+            <NavMenu />
+        </div>
+    }
 
     <main>
-        <article class="content px-4">
+        <div class="@(ShowNavMenu ? "content px-4" : "content-full")">
             @Body
-        </article>
+        </div>
     </main>
 </div>
 
-<Footer />
+@code {
+    private bool ShowNavMenu = true;
+
+    [Inject]
+    private NavigationManager NavigationManager { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        UpdateNavMenuVisibility();
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        UpdateNavMenuVisibility();
+        StateHasChanged();
+    }
+
+    private void UpdateNavMenuVisibility()
+    {
+        var currentUri = NavigationManager.Uri;
+        var absolutePath = new Uri(currentUri).AbsolutePath;
+
+        var hideNavPages = new[] { "/", "/welcome", "/login", "/register" };
+
+        ShowNavMenu = !hideNavPages.Any(page =>
+            absolutePath.Equals(page, StringComparison.OrdinalIgnoreCase));
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}

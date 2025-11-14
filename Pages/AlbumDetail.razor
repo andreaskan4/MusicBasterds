@@ -3,169 +3,298 @@
 @inject AuthService Auth
 @inject NavigationManager Nav
 
-<h3>Album Details</h3>
+<div class="neon-album-container">
+    @if (Album == null)
+    {
+        <div class="neon-alert neon-alert-warning">
+            <span class="alert-icon">⚠️</span>
+            <span>Album not found. It may have been removed or the link is incorrect.</span>
+        </div>
+        <button class="neon-btn" @onclick="@(() => Nav.NavigateTo("/home"))">
+            ← Back to Home
+        </button>
+    }
+    else
+    {
+        <div class="album-header">
+            <button class="back-button" @onclick="@(() => Nav.NavigateTo("/home"))">
+                <span class="back-icon">←</span> Back
+            </button>
+            <h1 class="page-title">
+                <span class="title-icon">📀</span> Album Details
+            </h1>
+        </div>
 
-@if (Album == null)
-{
-    <div class="alert alert-warning">Album not found.</div>
-}
-else
-{
-    <div class="row">
-        <!-- Album Info -->
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-body">
+        <div class="album-layout">
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Album Info Card -->
+                <div class="neon-card album-info-card">
                     @if (Album.Image != null)
                     {
-                        <img src="@($"data:image/png;base64,{Convert.ToBase64String(Album.Image)}")"
-                             class="img-fluid mb-3" style="max-height: 300px; object-fit: cover;" />
-                    }
-
-                    <h4>@Album.Title</h4>
-                    <h5 class="text-muted">by @Album.Artist</h5>
-                    <p><strong>Genre:</strong> @Album.Genre</p>
-                    <p><strong>Description:</strong> @Album.Description</p>
-
-                    @if (Album.Links.Any())
-                    {
-                        <div class="mt-3">
-                            <h6>Listen Links:</h6>
-                            @foreach (var link in Album.Links)
-                            {
-                                <a href="@link.Url" target="_blank" class="btn btn-outline-primary btn-sm me-2 mb-2">
-                                    🎵 Listen
-                                </a>
-                            }
+                        <div class="album-cover-container">
+                            <img src="@($"data:image/png;base64,{Convert.ToBase64String(Album.Image)}")"
+                                 class="album-cover"
+                                 alt="@Album.Title cover" />
+                            <div class="cover-glow"></div>
                         </div>
                     }
 
-                    <div class="mt-3">
-                        <small class="text-muted">
-                            Uploaded by @Album.UserName on @Album.UploadDate.ToString("MMM dd, yyyy")
-                        </small>
+                    <div class="album-details">
+                        <h2 class="album-title">@Album.Title</h2>
+                        <h3 class="album-artist">by @Album.Artist</h3>
+
+                        <div class="album-meta">
+                            <div class="meta-item">
+                                <span class="meta-icon">🎸</span>
+                                <span class="meta-label">Genre:</span>
+                                <span class="meta-value">@Album.Genre</span>
+                            </div>
+                        </div>
+
+                        <div class="album-description">
+                            <div class="description-header">
+                                <span class="desc-icon">📝</span> Description
+                            </div>
+                            <p class="description-text">@Album.Description</p>
+                        </div>
+
+                        @if (Album.Links.Any())
+                        {
+                            <div class="listen-links">
+                                <h4 class="links-title">
+                                    <span class="links-icon">🎵</span> Listen Now
+                                </h4>
+                                <div class="links-grid">
+                                    @foreach (var link in Album.Links)
+                                    {
+                                        <a href="@link.Url" target="_blank" class="listen-button">
+                                            <span class="listen-icon">▶</span> Listen
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                        <div class="upload-info">
+                            <span class="info-icon">👤</span>
+                            Uploaded by <strong>@Album.UserName</strong> on
+                            <strong>@Album.UploadDate.ToString("MMM dd, yyyy")</strong>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Rating Section -->
-            <div class="card mt-3">
-                <div class="card-body">
-                    <h5>Rate this Album</h5>
+                <!-- Rating Section -->
+                <div class="neon-card rating-card">
+                    <h3 class="card-title">
+                        <span class="title-icon">⭐</span> Rate This Album
+                    </h3>
+
                     @if (CurrentUser == null)
                     {
-                        <p class="text-muted">Please <a href="/login">login</a> to rate this album.</p>
+                        <div class="login-prompt">
+                            <span class="prompt-icon">🔒</span>
+                            Please <a href="/login" class="neon-link">login</a> to rate this album
+                        </div>
                     }
                     else if (HasUserRated)
                     {
-                        <p class="text-success">You've already rated this album: @UserRating/100</p>
+                        <div class="rated-message">
+                            <span class="check-icon">✓</span>
+                            You've already rated this album: <strong>@UserRating/100</strong>
+                        </div>
                     }
                     else
                     {
-                        <div class="d-flex align-items-center gap-3">
-                            <input type="range" class="form-range" min="0" max="100"
-                                   @bind="NewRatingValue" @bind:event="oninput" />
-                            <span class="fw-bold">@NewRatingValue/100</span>
-                            <button class="btn btn-primary btn-sm" @onclick="SubmitRating">Submit Rating</button>
+                        <div class="rating-input">
+                            <div class="slider-container">
+                                <input type="range"
+                                       class="neon-slider"
+                                       min="0"
+                                       max="100"
+                                       @bind="NewRatingValue"
+                                       @bind:event="oninput" />
+                                <div class="slider-track" style="width: @(NewRatingValue)%"></div>
+                            </div>
+                            <div class="rating-display">@NewRatingValue/100</div>
+                            <button class="neon-btn rating-submit" @onclick="SubmitRating">
+                                <span class="btn-icon">🚀</span> Submit Rating
+                            </button>
                         </div>
                     }
 
-                    <div class="mt-2">
-                        @if (Album.AverageRating >= 0)
-                        {
-                            <h6>Average Rating: <strong>@Album.DisplayRating/100</strong></h6>
-                            <small>Based on @Album.Ratings.Count ratings</small>
-                        }
-                        else
-                        {
-                            <h6>Average Rating: <strong>Not rated yet</strong></h6>
-                        }
+                    <div class="average-rating">
+                        <div class="rating-value">
+                            <span class="rating-icon">📊</span>
+                            Average Rating:
+                            @if (Album.AverageRating >= 0)
+                            {
+                                <strong class="rating-number">@Album.DisplayRating/100</strong>
+                            }
+                            else
+                            {
+                                <strong class="rating-number">Not rated yet</strong>
+                            }
+                        </div>
+                        <div class="rating-count">
+                            Based on @Album.Ratings.Count rating@(Album.Ratings.Count != 1 ? "s" : "")
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Comments Section -->
-            <div class="card mt-3">
-                <div class="card-body">
-                    <h5>Comments (@Album.Comments.Count)</h5>
+                <!-- Comments Section -->
+                <div class="neon-card comments-card">
+                    <h3 class="card-title">
+                        <span class="title-icon">💬</span>
+                        Comments
+                        <span class="comment-count">(@Album.Comments.Count)</span>
+                    </h3>
 
                     <!-- Add Comment -->
                     @if (CurrentUser == null)
                     {
-                        <p class="text-muted">Please <a href="/login">login</a> to comment.</p>
+                        <div class="login-prompt">
+                            <span class="prompt-icon">🔒</span>
+                            Please <a href="/login" class="neon-link">login</a> to comment
+                        </div>
                     }
                     else
                     {
-                        <div class="mb-3">
-                            <textarea class="form-control" @bind="NewComment" rows="3"
+                        <div class="add-comment-section">
+                            <div class="comment-input-header">
+                                <div class="commenter-avatar">@CurrentUser.Username[0]</div>
+                                <span class="commenter-name">@CurrentUser.Username</span>
+                            </div>
+                            <textarea class="neon-textarea"
+                                      @bind="NewComment"
+                                      rows="4"
                                       placeholder="Share your thoughts about this album..."></textarea>
-                            <button class="btn btn-primary mt-2" @onclick="SubmitComment"
+                            <button class="neon-btn comment-submit"
+                                    @onclick="SubmitComment"
                                     disabled="@string.IsNullOrWhiteSpace(NewComment)">
-                                Post Comment
+                                <span class="btn-icon">💭</span> Post Comment
                             </button>
                         </div>
                     }
 
                     <!-- Comments List -->
-                    @foreach (var comment in Album.Comments.OrderByDescending(c => c.PostedAt))
-                    {
-                        <div class="border-bottom pb-3 mb-3">
-                            <div class="d-flex justify-content-between">
-                                <strong>@comment.UserName</strong>
-                                <small class="text-muted">@comment.PostedAt.ToString("MMM dd, yyyy HH:mm")</small>
+                    <div class="comments-list">
+                        @if (Album.Comments.Count == 0)
+                        {
+                            <div class="empty-comments">
+                                <div class="empty-icon">💬</div>
+                                <p class="empty-text">No comments yet. Be the first to share your thoughts!</p>
                             </div>
-                            <p class="mb-1 mt-1">@comment.Content</p>
+                        }
+                        else
+                        {
+                            @foreach (var comment in Album.Comments.OrderByDescending(c => c.PostedAt))
+                            {
+                                <div class="comment-item">
+                                    <div class="comment-header">
+                                        <div class="comment-author">
+                                            <div class="author-avatar">@comment.UserName[0]</div>
+                                            <div class="author-info">
+                                                <strong class="author-name">@comment.UserName</strong>
+                                                <span class="comment-date">@comment.PostedAt.ToString("MMM dd, yyyy HH:mm")</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="comment-content">@comment.Content</p>
 
-                            <!-- Owner Response -->
-                            @if (!string.IsNullOrEmpty(comment.OwnerResponse))
-                            {
-                                <div class="bg-light p-3 rounded mt-2 ms-3 border-start border-3 border-primary">
-                                    <strong>🎵 @Album.UserName (Owner) responded:</strong>
-                                    <p class="mb-0 mt-1">@comment.OwnerResponse</p>
-                                    <small class="text-muted">@comment.ResponseDate?.ToString("MMM dd, yyyy HH:mm")</small>
+                                    <!-- Owner Response -->
+                                    @if (!string.IsNullOrEmpty(comment.OwnerResponse))
+                                    {
+                                        <div class="owner-response">
+                                            <div class="response-header">
+                                                <span class="owner-badge">🎵 Owner</span>
+                                                <strong>@Album.UserName</strong> responded:
+                                            </div>
+                                            <p class="response-content">@comment.OwnerResponse</p>
+                                            <span class="response-date">@comment.ResponseDate?.ToString("MMM dd, yyyy HH:mm")</span>
+                                        </div>
+                                    }
+                                    else if (CurrentUser?.Username == Album.UserName)
+                                    {
+                                        <div class="response-input-section">
+                                            <textarea class="neon-textarea response-textarea"
+                                                      value="@GetResponseText(comment.Id)"
+                                                      @oninput="@(e => UpdateResponseText(comment.Id, e.Value?.ToString() ?? ""))"
+                                                      rows="2"
+                                                      placeholder="Respond to this comment as the album owner..."></textarea>
+                                            <button class="neon-btn-sm response-btn"
+                                                    @onclick="() => SubmitOwnerResponse(comment)">
+                                                <span class="btn-icon">↩️</span> Respond as Owner
+                                            </button>
+                                        </div>
+                                    }
                                 </div>
                             }
-                            else if (CurrentUser?.Username == Album.UserName)
-                            {
-                                <div class="mt-2 ms-3">
-                                    <textarea class="form-control form-control-sm"
-                                              value="@GetResponseText(comment.Id)"
-                                              @oninput="@(e => UpdateResponseText(comment.Id, e.Value?.ToString() ?? ""))"
-                                              rows="2"
-                                              placeholder="Respond to this comment as owner..."></textarea>
-                                    <button class="btn btn-outline-success btn-sm mt-1"
-                                            @onclick="() => SubmitOwnerResponse(comment)">
-                                        Respond as Owner
-                                    </button>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Stats -->
+            <div class="sidebar">
+                <div class="neon-card stats-card">
+                    <h3 class="card-title">
+                        <span class="title-icon">📊</span> Statistics
+                    </h3>
+
+                    <div class="stats-list">
+                        <div class="stat-item">
+                            <span class="stat-icon">⭐</span>
+                            <div class="stat-content">
+                                <div class="stat-label">Average Rating</div>
+                                <div class="stat-value">
+                                    @if (Album.AverageRating >= 0)
+                                    {
+                                        <span>@Album.DisplayRating/100</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="no-rating">Not rated</span>
+                                    }
                                 </div>
-                            }
+                            </div>
                         </div>
-                    }
-                </div>
-            </div>
-        </div>
 
-        <!-- Sidebar Stats -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h6>Album Statistics</h6>
-                    @if (Album.AverageRating >= 0)
-                    {
-                        <p>📊 Average Rating: <strong>@Album.DisplayRating/100</strong></p>
-                    }
-                    else
-                    {
-                        <p>📊 Average Rating: <strong>Not rated</strong></p>
-                    }
-                    <p>💬 Comments: <strong>@Album.Comments.Count</strong></p>
-                    <p>⭐ Ratings: <strong>@Album.Ratings.Count</strong></p>
-                    <p>📅 Uploaded: <strong>@Album.UploadDate.ToString("MMM dd, yyyy")</strong></p>
+                        <div class="stat-divider"></div>
+
+                        <div class="stat-item">
+                            <span class="stat-icon">💬</span>
+                            <div class="stat-content">
+                                <div class="stat-label">Comments</div>
+                                <div class="stat-value">@Album.Comments.Count</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-divider"></div>
+
+                        <div class="stat-item">
+                            <span class="stat-icon">🔢</span>
+                            <div class="stat-content">
+                                <div class="stat-label">Total Ratings</div>
+                                <div class="stat-value">@Album.Ratings.Count</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-divider"></div>
+
+                        <div class="stat-item">
+                            <span class="stat-icon">📅</span>
+                            <div class="stat-content">
+                                <div class="stat-label">Uploaded</div>
+                                <div class="stat-value">@Album.UploadDate.ToString("MMM dd, yyyy")</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-}
+    }
+</div>
 
 @code {
     [Parameter] public Guid AlbumId { get; set; }
@@ -238,9 +367,943 @@ else
         await AlbumService.UpdateCommentAsync(AlbumId, comment);
         Album = await AlbumService.GetAlbumByIdAsync(AlbumId);
 
-        // Clear the response text
         responseTexts[comment.Id] = string.Empty;
 
         StateHasChanged();
     }
 }
+
+<style>
+    .neon-album-container {
+        background: #000000;
+        min-height: 100vh;
+        padding: 2rem;
+        color: #00ff41;
+        font-family: 'Courier New', monospace;
+    }
+
+    .album-header {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .back-button {
+        background: transparent;
+        color: #00ff41;
+        border: 2px solid #00ff41;
+        padding: 0.6rem 1.2rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+        font-family: 'Courier New', monospace;
+    }
+
+        .back-button:hover {
+            background: rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+            transform: translateX(-3px);
+        }
+
+    .back-icon {
+        font-size: 1.2rem;
+    }
+
+    .page-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #00ff41;
+        text-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        letter-spacing: 2px;
+    }
+
+    .title-icon {
+        font-size: 2rem;
+        filter: drop-shadow(0 0 10px #00ff41);
+    }
+
+    .neon-alert {
+        background: linear-gradient(135deg, rgba(0, 255, 65, 0.1), rgba(0, 255, 65, 0.05));
+        border: 2px solid #00ff41;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .neon-alert-warning {
+        border-color: #ffa500;
+        background: linear-gradient(135deg, rgba(255, 165, 0, 0.1), rgba(255, 165, 0, 0.05));
+        color: #ffa500;
+    }
+
+    .alert-icon {
+        font-size: 1.5rem;
+        filter: drop-shadow(0 0 5px currentColor);
+    }
+
+    .album-layout {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 2rem;
+    }
+
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .neon-card {
+        background: linear-gradient(135deg, rgba(0, 255, 65, 0.05), rgba(0, 255, 65, 0.02));
+        border: 2px solid #00ff41;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    @@keyframes fadeIn {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+    .album-info-card {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .album-cover-container {
+        position: relative;
+        margin-bottom: 2rem;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 2px solid #00ff41;
+        box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+    }
+
+    .album-cover {
+        width: 100%;
+        max-height: 400px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .cover-glow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(0, 255, 65, 0.2), transparent);
+        pointer-events: none;
+    }
+
+    .album-details {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .album-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #00ff41;
+        text-shadow: 0 0 15px #00ff41;
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    .album-artist {
+        font-size: 1.8rem;
+        color: #00ff41;
+        opacity: 0.8;
+        margin: 0;
+        font-style: italic;
+    }
+
+    .album-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.1rem;
+    }
+
+    .meta-icon {
+        font-size: 1.3rem;
+        filter: drop-shadow(0 0 5px #00ff41);
+    }
+
+    .meta-label {
+        opacity: 0.7;
+    }
+
+    .meta-value {
+        font-weight: bold;
+        color: #00ff41;
+        text-shadow: 0 0 5px #00ff41;
+    }
+
+    .album-description {
+        background: rgba(0, 255, 65, 0.05);
+        border-left: 3px solid #00ff41;
+        padding: 1.5rem;
+        border-radius: 6px;
+    }
+
+    .description-header {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #00ff41;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .desc-icon {
+        font-size: 1.3rem;
+        filter: drop-shadow(0 0 5px #00ff41);
+    }
+
+    .description-text {
+        line-height: 1.8;
+        margin: 0;
+        opacity: 0.9;
+    }
+
+    .listen-links {
+        background: rgba(0, 255, 65, 0.03);
+        border: 1px solid #00ff41;
+        border-radius: 8px;
+        padding: 1.5rem;
+    }
+
+    .links-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #00ff41;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .links-icon {
+        font-size: 1.3rem;
+        filter: drop-shadow(0 0 5px #00ff41);
+    }
+
+    .links-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+
+    .listen-button {
+        background: transparent;
+        color: #00ff41;
+        border: 2px solid #00ff41;
+        padding: 0.75rem 1.25rem;
+        border-radius: 6px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+        .listen-button:hover {
+            background: rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+            transform: scale(1.05);
+            color: #00ff41;
+        }
+
+    .listen-icon {
+        font-size: 1.1rem;
+    }
+
+    .upload-info {
+        font-size: 0.95rem;
+        opacity: 0.7;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(0, 255, 65, 0.3);
+    }
+
+    .info-icon {
+        font-size: 1.1rem;
+    }
+
+    .card-title {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #00ff41;
+        text-shadow: 0 0 10px #00ff41;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .login-prompt {
+        background: rgba(0, 255, 65, 0.05);
+        border: 1px dashed #00ff41;
+        border-radius: 6px;
+        padding: 1.5rem;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .prompt-icon {
+        font-size: 1.3rem;
+        filter: drop-shadow(0 0 5px #00ff41);
+    }
+
+    .neon-link {
+        color: #00ff41;
+        text-decoration: none;
+        font-weight: bold;
+        border-bottom: 1px solid #00ff41;
+        transition: all 0.3s ease;
+    }
+
+        .neon-link:hover {
+            text-shadow: 0 0 10px #00ff41;
+            border-bottom: 2px solid #00ff41;
+        }
+
+    .rated-message {
+        background: rgba(0, 255, 65, 0.1);
+        border: 2px solid #00ff41;
+        border-radius: 6px;
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.1rem;
+    }
+
+    .check-icon {
+        font-size: 1.5rem;
+        color: #00ff41;
+        filter: drop-shadow(0 0 10px #00ff41);
+    }
+
+    .rating-input {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .slider-container {
+        position: relative;
+        padding: 1rem 0;
+    }
+
+    .neon-slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 8px;
+        border-radius: 4px;
+        background: rgba(0, 255, 65, 0.2);
+        outline: none;
+        position: relative;
+        z-index: 2;
+    }
+
+        .neon-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ff41, #00cc33);
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.8);
+            border: 2px solid #00ff41;
+        }
+
+        .neon-slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ff41, #00cc33);
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.8);
+            border: 2px solid #00ff41;
+        }
+
+    .slider-track {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        height: 8px;
+        background: linear-gradient(90deg, #00ff41, #00cc33);
+        border-radius: 4px;
+        transform: translateY(-50%);
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        pointer-events: none;
+        transition: width 0.1s ease;
+    }
+
+    .rating-display {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #00ff41;
+        text-shadow: 0 0 15px #00ff41;
+        text-align: center;
+    }
+
+    .neon-btn {
+        background: transparent;
+        color: #00ff41;
+        border: 2px solid #00ff41;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: 'Courier New', monospace;
+    }
+
+        .neon-btn:hover:not(:disabled) {
+            background: rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .neon-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+    .btn-icon {
+        font-size: 1.2rem;
+    }
+
+    .rating-submit {
+        align-self: center;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+    }
+
+    .average-rating {
+        background: rgba(0, 255, 65, 0.05);
+        border: 1px solid #00ff41;
+        border-radius: 6px;
+        padding: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .rating-value {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .rating-icon {
+        font-size: 1.3rem;
+        filter: drop-shadow(0 0 5px #00ff41);
+    }
+
+    .rating-number {
+        color: #00ff41;
+        text-shadow: 0 0 10px #00ff41;
+    }
+
+    .rating-count {
+        font-size: 0.9rem;
+        opacity: 0.7;
+    }
+
+    .comment-count {
+        font-size: 1rem;
+        opacity: 0.7;
+        margin-left: 0.5rem;
+    }
+
+    .add-comment-section {
+        background: rgba(0, 255, 65, 0.03);
+        border: 1px solid #00ff41;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .comment-input-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .commenter-avatar {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #00ff41, #00cc33);
+        color: #000000;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.2rem;
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.6);
+        border: 2px solid #00ff41;
+    }
+
+    .commenter-name {
+        font-weight: bold;
+        color: #00ff41;
+        text-shadow: 0 0 5px #00ff41;
+    }
+
+    .neon-textarea {
+        background: rgba(0, 255, 65, 0.05);
+        border: 2px solid #00ff41;
+        color: #00ff41;
+        padding: 1rem;
+        border-radius: 6px;
+        font-family: 'Courier New', monospace;
+        font-size: 1rem;
+        resize: vertical;
+        width: 100%;
+        transition: all 0.3s ease;
+        box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.1);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+        .neon-textarea:focus {
+            outline: none;
+            background: rgba(0, 255, 65, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.4), inset 0 0 20px rgba(0, 255, 65, 0.15);
+        }
+
+        .neon-textarea::placeholder {
+            color: #00ff41;
+            opacity: 0.5;
+        }
+
+    .comment-submit {
+        align-self: flex-start;
+    }
+
+    .comments-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .empty-comments {
+        text-align: center;
+        padding: 3rem 1rem;
+        background: rgba(0, 255, 65, 0.02);
+        border: 1px dashed #00ff41;
+        border-radius: 8px;
+    }
+
+    .empty-icon {
+        font-size: 3rem;
+        opacity: 0.4;
+        margin-bottom: 1rem;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @@keyframes float {
+        0%, 100%
+
+    {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    }
+
+    .empty-text {
+        color: #00ff41;
+        opacity: 0.6;
+        font-style: italic;
+        margin: 0;
+    }
+
+    .comment-item {
+        background: rgba(0, 255, 65, 0.03);
+        border: 1px solid #00ff41;
+        border-radius: 8px;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+        animation: slideIn 0.5s ease-out;
+    }
+
+    @@keyframes slideIn {
+        from
+
+    {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    }
+
+    .comment-item:hover {
+        background: rgba(0, 255, 65, 0.05);
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+    }
+
+    .comment-header {
+        margin-bottom: 1rem;
+    }
+
+    .comment-author {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .author-avatar {
+        width: 35px;
+        height: 35px;
+        background: linear-gradient(135deg, #00ff41, #00cc33);
+        color: #000000;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1rem;
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
+        border: 2px solid #00ff41;
+        flex-shrink: 0;
+    }
+
+    .author-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+
+    .author-name {
+        color: #00ff41;
+        text-shadow: 0 0 5px #00ff41;
+        font-size: 1.1rem;
+    }
+
+    .comment-date {
+        font-size: 0.85rem;
+        opacity: 0.6;
+    }
+
+    .comment-content {
+        line-height: 1.7;
+        margin: 0;
+        opacity: 0.9;
+    }
+
+    .owner-response {
+        background: linear-gradient(135deg, rgba(0, 255, 65, 0.15), rgba(0, 255, 65, 0.08));
+        border-left: 3px solid #00ff41;
+        border-radius: 6px;
+        padding: 1.25rem;
+        margin-top: 1rem;
+        margin-left: 2rem;
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+    }
+
+    .response-header {
+        font-weight: bold;
+        color: #00ff41;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .owner-badge {
+        background: linear-gradient(135deg, #00ff41, #00cc33);
+        color: #000000;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
+    }
+
+    .response-content {
+        line-height: 1.7;
+        margin: 0 0 0.5rem 0;
+        opacity: 0.9;
+    }
+
+    .response-date {
+        font-size: 0.8rem;
+        opacity: 0.6;
+    }
+
+    .response-input-section {
+        margin-top: 1rem;
+        margin-left: 2rem;
+        padding: 1rem;
+        background: rgba(0, 255, 65, 0.03);
+        border: 1px dashed #00ff41;
+        border-radius: 6px;
+    }
+
+    .response-textarea {
+        margin-bottom: 0.75rem;
+    }
+
+    .neon-btn-sm {
+        background: transparent;
+        color: #00ff41;
+        border: 2px solid #00ff41;
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: 'Courier New', monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+        .neon-btn-sm:hover {
+            background: rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+            transform: translateY(-2px);
+        }
+
+    .response-btn {
+        font-weight: bold;
+    }
+
+    .sidebar {
+        position: sticky;
+        top: 2rem;
+        height: fit-content;
+    }
+
+    .stats-card {
+        background: linear-gradient(135deg, rgba(0, 255, 65, 0.08), rgba(0, 255, 65, 0.03));
+    }
+
+    .stats-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: rgba(0, 255, 65, 0.03);
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+
+        .stat-item:hover {
+            background: rgba(0, 255, 65, 0.08);
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+        }
+
+    .stat-icon {
+        font-size: 1.8rem;
+        filter: drop-shadow(0 0 5px #00ff41);
+        flex-shrink: 0;
+    }
+
+    .stat-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        flex: 1;
+    }
+
+    .stat-label {
+        font-size: 0.85rem;
+        opacity: 0.7;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #00ff41;
+        text-shadow: 0 0 5px #00ff41;
+    }
+
+    .no-rating {
+        font-size: 1rem;
+        opacity: 0.6;
+    }
+
+    .stat-divider {
+        height: 1px;
+        background: linear-gradient(to right, transparent, #00ff41, transparent);
+        opacity: 0.3;
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 1024px) {
+        .album-layout
+
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        position: static;
+    }
+
+    }
+
+    @@media (max-width: 768px) {
+        .neon-album-container
+
+    {
+        padding: 1rem;
+    }
+
+    .album-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .page-title {
+        font-size: 2rem;
+    }
+
+    .album-title {
+        font-size: 1.8rem;
+    }
+
+    .album-artist {
+        font-size: 1.3rem;
+    }
+
+    .neon-card {
+        padding: 1.5rem;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+    }
+
+    .links-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .owner-response,
+    .response-input-section {
+        margin-left: 0;
+    }
+
+    .rating-input {
+        gap: 1rem;
+    }
+
+    .rating-display {
+        font-size: 1.5rem;
+    }
+
+    }
+
+    /* Loading Animation */
+    @@keyframes shimmer {
+        0%
+
+    {
+        background-position: -1000px 0;
+    }
+
+    100% {
+        background-position: 1000px 0;
+    }
+
+    }
+
+    /* Pulse Animation for badges */
+    @@keyframes pulse-glow {
+        0%, 100%
+
+    {
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
+    }
+
+    50% {
+        box-shadow: 0 0 20px rgba(0, 255, 65, 0.9);
+    }
+
+    }
+
+    .owner-badge {
+        animation: pulse-glow 2s ease-in-out infinite;
+    }
+</style>

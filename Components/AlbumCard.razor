@@ -1,31 +1,35 @@
 ﻿@using MusicBasterds.Models
 @inherits ComponentBase
 
-<div class="card shadow-sm mb-3 bg-dark text-light" style="cursor: pointer;" @onclick="GoToAlbumDetail">
+<div class="neon-card" @onclick="GoToAlbumDetail">
     @if (Album.Image != null)
     {
-        <img src="@($"data:image/png;base64,{Convert.ToBase64String(Album.Image)}")"
-             class="card-img-top" style="max-height:200px; object-fit:cover;" />
+        <div class="neon-card-image">
+            <img src="@($"data:image/png;base64,{Convert.ToBase64String(Album.Image)}")" />
+        </div>
     }
 
-    <div class="card-body">
-        <h5 class="card-title">@Album.Title</h5>
-        <p class="mb-1"><strong>Artist:</strong> @Album.Artist</p>
-        <p class="mb-1"><strong>Genre:</strong> @Album.Genre</p>
-        <p class="card-text">@GetShortDescription()</p>
+    <div class="neon-card-content">
+        <h3 class="neon-card-title">@Album.Title</h3>
+        <div class="neon-card-info">
+            <span class="neon-info-item">🎤 @Album.Artist</span>
+            <span class="neon-info-item">🎵 @Album.Genre</span>
+        </div>
 
-        <div class="d-flex justify-content-between align-items-center">
-            <small class="text-muted">By @Album.UserName</small>
-            <div>
+        <p class="neon-card-description">@GetShortDescription()</p>
+
+        <div class="neon-card-footer">
+            <span class="neon-uploader">→ By @Album.UserName</span>
+            <div class="neon-stats">
                 @if (Album.AverageRating >= 0)
                 {
-                    <span class="badge bg-primary">⭐ @Album.DisplayRating</span>
+                    <span class="neon-badge neon-badge-primary">⭐ @Album.DisplayRating</span>
                 }
                 else
                 {
-                    <span class="badge bg-secondary">⭐ No ratings</span>
+                    <span class="neon-badge neon-badge-secondary">⭐ No ratings</span>
                 }
-                <span class="badge bg-secondary ms-1">💬 @Album.Comments.Count</span>
+                <span class="neon-badge neon-badge-secondary">💬 @Album.Comments.Count</span>
             </div>
         </div>
     </div>
@@ -50,3 +54,195 @@
         Nav.NavigateTo($"/album/{Album.Id}");
     }
 }
+
+<style>
+    .neon-card {
+        background: #000000;
+        border: 2px solid #00ff41;
+        border-radius: 12px;
+        padding: 0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+        font-family: 'Courier New', monospace;
+        overflow: hidden;
+        position: relative;
+    }
+
+        .neon-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px #00ff41, 0 0 35px rgba(0, 255, 65, 0.4);
+            border-color: #00ff41;
+        }
+
+        .neon-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff41, transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .neon-card:hover::before {
+            opacity: 1;
+        }
+
+    .neon-card-image {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        border-bottom: 2px solid #00ff41;
+    }
+
+        .neon-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+    .neon-card:hover .neon-card-image img {
+        transform: scale(1.05);
+    }
+
+    .neon-card-content {
+        padding: 1.5rem;
+        color: #00ff41;
+    }
+
+    .neon-card-title {
+        color: #00ff41;
+        font-size: 1.4rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+        padding-bottom: 0.5rem;
+        letter-spacing: 1px;
+    }
+
+    .neon-card-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .neon-info-item {
+        background: rgba(0, 255, 65, 0.1);
+        border: 1px solid #00ff41;
+        border-radius: 6px;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+        box-shadow: 0 0 8px rgba(0, 255, 65, 0.2);
+    }
+
+    .neon-card-description {
+        color: #00ff41;
+        opacity: 0.9;
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
+        border-left: 2px solid #00ff41;
+        padding-left: 1rem;
+        background: rgba(0, 255, 65, 0.05);
+        padding: 1rem;
+        border-radius: 4px;
+    }
+
+    .neon-card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(0, 255, 65, 0.3);
+    }
+
+    .neon-uploader {
+        color: #00ff41;
+        opacity: 0.8;
+        font-size: 0.85rem;
+        font-style: italic;
+    }
+
+    .neon-stats {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .neon-badge {
+        padding: 0.4rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: 1px solid;
+        transition: all 0.3s ease;
+    }
+
+    .neon-badge-primary {
+        background: rgba(0, 255, 65, 0.2);
+        border-color: #00ff41;
+        color: #00ff41;
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+    }
+
+    .neon-badge-secondary {
+        background: rgba(0, 255, 65, 0.1);
+        border-color: #00ff41;
+        color: #00ff41;
+        box-shadow: 0 0 8px rgba(0, 255, 65, 0.2);
+    }
+
+    .neon-badge:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+    }
+
+    /* Mobile responsiveness */
+    @@media (max-width: 768px) {
+        .neon-card-content {
+            padding: 1rem;
+        }
+
+        .neon-card-title {
+            font-size: 1.2rem;
+        }
+
+        .neon-card-footer {
+            flex-direction: column;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .neon-stats {
+            width: 100%;
+            justify-content: flex-start;
+        }
+    }
+
+    /* Animation for card entrance */
+    @@keyframes neonGlow {
+        0% {
+            box-shadow: 0 0 5px rgba(0, 255, 65, 0.2);
+        }
+
+        50% {
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+        }
+
+        100% {
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+        }
+    }
+
+    .neon-card {
+        animation: neonGlow 2s ease-in-out;
+    }
+</style>

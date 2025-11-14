@@ -1,42 +1,34 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\",
+  "WorkspaceRootPath": "C:\\Users\\kandh\\source\\repos\\MusicBasterds\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|c:\\users\\steli\\source\\repos\\musicbasterds\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|solutionrelative:layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|c:\\users\\kandh\\source\\repos\\musicbasterds\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|solutionrelative:services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|c:\\users\\steli\\source\\repos\\musicbasterds\\wwwroot\\css\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|solutionrelative:wwwroot\\css\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|c:\\users\\kandh\\source\\repos\\musicbasterds\\pages\\welcome.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|solutionrelative:pages\\welcome.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|c:\\users\\steli\\source\\repos\\musicbasterds\\pages\\albumdetail.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|solutionrelative:pages\\albumdetail.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|c:\\users\\steli\\source\\repos\\musicbasterds\\services\\albumservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|solutionrelative:services\\albumservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|c:\\users\\steli\\source\\repos\\musicbasterds\\components\\albumcard.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|solutionrelative:components\\albumcard.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|c:\\users\\steli\\source\\repos\\musicbasterds\\models\\album.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|solutionrelative:models\\album.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|c:\\users\\steli\\source\\repos\\musicbasterds\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|solutionrelative:_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|c:\\users\\steli\\source\\repos\\musicbasterds\\components\\footer.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|solutionrelative:components\\footer.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|c:\\users\\steli\\source\\repos\\musicbasterds\\pages\\profile.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|c:\\users\\kandh\\source\\repos\\musicbasterds\\pages\\profile.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|solutionrelative:pages\\profile.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|c:\\users\\kandh\\source\\repos\\musicbasterds\\pages\\register.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|solutionrelative:pages\\register.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|c:\\users\\kandh\\source\\repos\\musicbasterds\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|solutionrelative:pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|c:\\users\\kandh\\source\\repos\\musicbasterds\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|solutionrelative:pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|c:\\users\\kandh\\source\\repos\\musicbasterds\\components\\albumcard.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E6D92A86-AEE1-49CD-87D8-68884EBB2219}|MusicBasterds.csproj|solutionrelative:components\\albumcard.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -46,128 +38,100 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Footer.razor",
-              "DocumentMoniker": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\Components\\Footer.razor",
-              "RelativeDocumentMoniker": "Components\\Footer.razor",
-              "ToolTip": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\Components\\Footer.razor",
-              "RelativeToolTip": "Components\\Footer.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-13T21:14:34.985Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "AlbumService.cs",
-              "DocumentMoniker": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\Services\\AlbumService.cs",
-              "RelativeDocumentMoniker": "Services\\AlbumService.cs",
-              "ToolTip": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\Services\\AlbumService.cs",
-              "RelativeToolTip": "Services\\AlbumService.cs",
-              "ViewState": "AgIAAFoAAAAAAAAAAADwv4IAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-13T21:11:57.583Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "AlbumDetail.razor",
-              "DocumentMoniker": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\Pages\\AlbumDetail.razor",
-              "RelativeDocumentMoniker": "Pages\\AlbumDetail.razor",
-              "ToolTip": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\Pages\\AlbumDetail.razor",
-              "RelativeToolTip": "Pages\\AlbumDetail.razor",
-              "ViewState": "AgIAAGoAAAAAAAAAAAAkwPUAAAABAAAAAAAAAA==",
+              "Title": "Profile.razor",
+              "DocumentMoniker": "C:\\Users\\kandh\\source\\repos\\MusicBasterds\\Pages\\Profile.razor",
+              "RelativeDocumentMoniker": "Pages\\Profile.razor",
+              "ToolTip": "C:\\Users\\kandh\\source\\repos\\MusicBasterds\\Pages\\Profile.razor",
+              "RelativeToolTip": "Pages\\Profile.razor",
+              "ViewState": "AgIAAO4CAAAAAAAAAADwvwMDAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-13T16:29:11.214Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-13T23:31:43.87Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Register.razor",
+              "DocumentMoniker": "C:\\Users\\kandh\\source\\repos\\MusicBasterds\\Pages\\Register.razor",
+              "RelativeDocumentMoniker": "Pages\\Register.razor",
+              "ToolTip": "C:\\Users\\kandh\\source\\repos\\MusicBasterds\\Pages\\Register.razor",
+              "RelativeToolTip": "Pages\\Register.razor",
+              "ViewState": "AgIAAG0BAAAAAAAAAADwv44BAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-13T23:25:40.813Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Welcome.razor",
+              "DocumentMoniker": "C:\\Users\\kandh\\source\\repos\\MusicBasterds\\Pages\\Welcome.razor",
+              "RelativeDocumentMoniker": "Pages\\Welcome.razor",
+              "ToolTip": "C:\\Users\\kandh\\source\\repos\\MusicBasterds\\Pages\\Welcome.razor",
+              "RelativeToolTip": "Pages\\Welcome.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-13T23:16:26.058Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MainLayout.razor",
-              "DocumentMoniker": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\Layout\\MainLayout.razor",
-              "RelativeDocumentMoniker": "Layout\\MainLayout.razor",
-              "ToolTip": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\Layout\\MainLayout.razor",
-              "RelativeToolTip": "Layout\\MainLayout.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-13T21:14:55.646Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Profile.razor",
-              "DocumentMoniker": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\Pages\\Profile.razor",
-              "RelativeDocumentMoniker": "Pages\\Profile.razor",
-              "ToolTip": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\Pages\\Profile.razor",
-              "RelativeToolTip": "Pages\\Profile.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFYAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-13T16:21:07.927Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Album.cs",
-              "DocumentMoniker": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\Models\\Album.cs",
-              "RelativeDocumentMoniker": "Models\\Album.cs",
-              "ToolTip": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\Models\\Album.cs",
-              "RelativeToolTip": "Models\\Album.cs",
-              "ViewState": "AgIAADIAAAAAAAAAAAAwwD8AAAAZAAAAAAAAAA==",
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\Users\\kandh\\source\\repos\\MusicBasterds\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "Services\\AuthService.cs",
+              "ToolTip": "C:\\Users\\kandh\\source\\repos\\MusicBasterds\\Services\\AuthService.cs",
+              "RelativeToolTip": "Services\\AuthService.cs",
+              "ViewState": "AgIAACYAAAAAAAAAAAAYwDIAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-13T14:55:31.019Z",
+              "WhenOpened": "2025-11-13T23:00:20.673Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "AlbumCard.razor",
-              "DocumentMoniker": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\Components\\AlbumCard.razor",
-              "RelativeDocumentMoniker": "Components\\AlbumCard.razor",
-              "ToolTip": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\Components\\AlbumCard.razor",
-              "RelativeToolTip": "Components\\AlbumCard.razor",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAuwB0AAAAOAAAAAAAAAA==",
+              "Title": "Login.razor",
+              "DocumentMoniker": "C:\\Users\\kandh\\source\\repos\\MusicBasterds\\Pages\\Login.razor",
+              "RelativeDocumentMoniker": "Pages\\Login.razor",
+              "ToolTip": "C:\\Users\\kandh\\source\\repos\\MusicBasterds\\Pages\\Login.razor",
+              "RelativeToolTip": "Pages\\Login.razor",
+              "ViewState": "AgIAADIBAAAAAAAAAADwv1MBAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-13T15:09:14.293Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-13T23:00:16.203Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Home.razor",
+              "DocumentMoniker": "C:\\Users\\kandh\\source\\repos\\MusicBasterds\\Pages\\Home.razor",
+              "RelativeDocumentMoniker": "Pages\\Home.razor",
+              "ToolTip": "C:\\Users\\kandh\\source\\repos\\MusicBasterds\\Pages\\Home.razor",
+              "RelativeToolTip": "Pages\\Home.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-13T22:59:11.354Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "_Imports.razor",
-              "DocumentMoniker": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\_Imports.razor",
-              "RelativeDocumentMoniker": "_Imports.razor",
-              "ToolTip": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\_Imports.razor",
-              "RelativeToolTip": "_Imports.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Title": "AlbumCard.razor",
+              "DocumentMoniker": "C:\\Users\\kandh\\source\\repos\\MusicBasterds\\Components\\AlbumCard.razor",
+              "RelativeDocumentMoniker": "Components\\AlbumCard.razor",
+              "ToolTip": "C:\\Users\\kandh\\source\\repos\\MusicBasterds\\Components\\AlbumCard.razor",
+              "RelativeToolTip": "Components\\AlbumCard.razor",
+              "ViewState": "AgIAANYAAAAAAAAAAADwv/cAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-13T21:14:44.796Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "app.css",
-              "DocumentMoniker": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\wwwroot\\css\\app.css",
-              "RelativeDocumentMoniker": "wwwroot\\css\\app.css",
-              "ToolTip": "C:\\Users\\steli\\source\\repos\\MusicBasterds\\wwwroot\\css\\app.css",
-              "RelativeToolTip": "wwwroot\\css\\app.css",
-              "ViewState": "AgIAAHsAAAAAAAAAAAAAAJIAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-11-13T21:15:10.098Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-13T15:09:14.293Z"
             }
           ]
         }

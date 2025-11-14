@@ -2,26 +2,56 @@
 @inject AuthService Auth
 @inject NavigationManager Nav
 
-<h3>Sign Up</h3>
+<div class="register-container">
+    <div class="register-box">
+        <div class="register-header">
+            <h3 class="neon-title">[ Create Account ]</h3>
+            <p class="neon-subtitle">// Join the MusicBasterds community</p>
+        </div>
 
-@if (!string.IsNullOrEmpty(Message))
-{
-    <div class="alert @(IsError ? "alert-danger" : "alert-success")">@Message</div>
-}
+        @if (!string.IsNullOrEmpty(Message))
+        {
+            <div class="@(IsError ? "neon-alert neon-alert-error" : "neon-alert neon-alert-success")">
+                @if (IsError)
+                {
+                    <span>⚠️</span>
+                }
+                else
+                {
+                    <span>✅</span>
+                }
+                @Message
+            </div>
+        }
 
-<div class="mb-3">
-    <label>Username</label>
-    <input @bind="User.Username" class="form-control" />
+        <div class="form-group">
+            <label class="neon-label">→ Username</label>
+            <input @bind="User.Username" class="neon-input" placeholder="Choose your username"
+                   @onkeypress="HandleKeyPress" />
+        </div>
+
+        <div class="form-group">
+            <label class="neon-label">→ Email</label>
+            <input type="email" @bind="User.Email" class="neon-input" placeholder="Enter your email"
+                   @onkeypress="HandleKeyPress" />
+        </div>
+
+        <div class="form-group">
+            <label class="neon-label">→ Password</label>
+            <input type="password" @bind="User.Password" class="neon-input" placeholder="Create secure password"
+                   @onkeypress="HandleKeyPress" />
+        </div>
+
+        <button class="neon-btn neon-btn-primary" @onclick="RegisterUser">
+            [ Register Account ]
+        </button>
+
+        <div class="register-footer">
+            <span class="neon-text">Already have an account? </span>
+            <a href="/login" class="neon-link">Login here</a>
+        </div>
+    </div>
 </div>
-<div class="mb-3">
-    <label>Email</label>
-    <input type="email" @bind="User.Email" class="form-control" />
-</div>
-<div class="mb-3">
-    <label>Password</label>
-    <input type="password" @bind="User.Password" class="form-control" />
-</div>
-<button class="btn btn-primary" @onclick="RegisterUser">Sign Up</button>
 
 @code {
     private User User = new();
@@ -30,11 +60,22 @@
 
     private async Task RegisterUser()
     {
+        if (string.IsNullOrWhiteSpace(User.Username) ||
+            string.IsNullOrWhiteSpace(User.Email) ||
+            string.IsNullOrWhiteSpace(User.Password))
+        {
+            Message = "Please fill in all fields.";
+            IsError = true;
+            return;
+        }
+
         var success = await Auth.RegisterAsync(User);
         if (success)
         {
             Message = "Registration successful! You can now log in.";
             IsError = false;
+            // Clear form
+            User = new User();
         }
         else
         {
@@ -42,4 +83,317 @@
             IsError = true;
         }
     }
+
+    private async Task HandleKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await RegisterUser();
+        }
+    }
 }
+
+<style>
+    .register-container {
+        background: #000000;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        font-family: 'Courier New', monospace;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .register-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 10% 10%, rgba(0, 255, 65, 0.1) 0%, transparent 50%), radial-gradient(circle at 90% 90%, rgba(0, 255, 65, 0.05) 0%, transparent 50%), radial-gradient(circle at 50% 50%, rgba(0, 255, 65, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+    .register-box {
+        background: rgba(0, 0, 0, 0.8);
+        border: 2px solid #00ff41;
+        border-radius: 12px;
+        padding: 3rem;
+        width: 100%;
+        max-width: 450px;
+        box-shadow: 0 0 30px rgba(0, 255, 65, 0.3), 0 0 60px rgba(0, 255, 65, 0.2);
+        position: relative;
+        z-index: 1;
+        backdrop-filter: blur(10px);
+    }
+
+        .register-box::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00ff41, transparent, #00ff41);
+            border-radius: 14px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .register-box:hover::before {
+            opacity: 0.3;
+        }
+
+    .register-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .neon-title {
+        color: #00ff41;
+        font-size: 2.2rem;
+        font-weight: bold;
+        text-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 30px rgba(0, 255, 65, 0.5);
+        margin-bottom: 0.5rem;
+        letter-spacing: 1px;
+    }
+
+    .neon-subtitle {
+        color: #00ff41;
+        opacity: 0.8;
+        font-size: 1rem;
+        margin: 0;
+    }
+
+    .neon-alert {
+        border-radius: 6px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+        animation: alertPulse 2s ease-in-out infinite;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: bold;
+    }
+
+    .neon-alert-error {
+        background: rgba(255, 0, 64, 0.1);
+        border: 1px solid #ff0040;
+        color: #ff0040;
+        text-shadow: 0 0 10px rgba(255, 0, 64, 0.5);
+        box-shadow: 0 0 15px rgba(255, 0, 64, 0.2);
+    }
+
+    .neon-alert-success {
+        background: rgba(0, 255, 65, 0.1);
+        border: 1px solid #00ff41;
+        color: #00ff41;
+        text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .neon-label {
+        display: block;
+        color: #00ff41;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+        font-size: 0.95rem;
+    }
+
+    .neon-input {
+        background: rgba(0, 255, 65, 0.1);
+        border: 1px solid #00ff41;
+        border-radius: 6px;
+        color: #00ff41;
+        padding: 0.75rem 1rem;
+        width: 100%;
+        font-family: 'Courier New', monospace;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.1);
+    }
+
+        .neon-input::placeholder {
+            color: #00ff41;
+            opacity: 0.5;
+        }
+
+        .neon-input:focus {
+            outline: none;
+            border-color: #00ff41;
+            box-shadow: 0 0 15px #00ff41, 0 0 25px rgba(0, 255, 65, 0.3);
+            background: rgba(0, 255, 65, 0.15);
+        }
+
+    .neon-btn {
+        background: transparent;
+        color: #00ff41;
+        border: 2px solid #00ff41;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-radius: 8px;
+        font-family: 'Courier New', monospace;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .neon-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .neon-btn:hover::before {
+            left: 100%;
+        }
+
+        .neon-btn:hover {
+            background: #00ff41;
+            color: #000000;
+            box-shadow: 0 0 20px #00ff41, 0 0 30px #00ff41, 0 0 40px rgba(0, 255, 65, 0.5);
+            transform: translateY(-2px);
+        }
+
+    .neon-btn-primary {
+        background: rgba(0, 255, 65, 0.1);
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+        margin-top: 0.5rem;
+    }
+
+    .register-footer {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(0, 255, 65, 0.3);
+    }
+
+    .neon-text {
+        color: #00ff41;
+        opacity: 0.8;
+        font-size: 0.9rem;
+    }
+
+    .neon-link {
+        color: #00ff41;
+        text-decoration: none;
+        font-weight: bold;
+        text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        transition: all 0.3s ease;
+    }
+
+        .neon-link:hover {
+            text-shadow: 0 0 15px #00ff41, 0 0 25px rgba(0, 255, 65, 0.7);
+            text-decoration: underline;
+        }
+
+    /* Animations */
+    @@keyframes alertPulse {
+        0%, 100% {
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+        }
+
+        50% {
+            box-shadow: 0 0 25px rgba(0, 255, 65, 0.4);
+        }
+    }
+
+    .neon-alert-error {
+        animation: alertPulseError 2s ease-in-out infinite;
+    }
+
+    @@keyframes alertPulseError {
+        0%, 100% {
+            box-shadow: 0 0 15px rgba(255, 0, 64, 0.2);
+        }
+
+        50% {
+            box-shadow: 0 0 25px rgba(255, 0, 64, 0.4);
+        }
+    }
+
+    /* Input focus animation */
+    .neon-input:focus {
+        animation: inputFocus 0.3s ease;
+    }
+
+    @@keyframes inputFocus {
+        0% {
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.1);
+        }
+
+        50% {
+            box-shadow: 0 0 20px #00ff41, 0 0 30px rgba(0, 255, 65, 0.4);
+        }
+
+        100% {
+            box-shadow: 0 0 15px #00ff41, 0 0 25px rgba(0, 255, 65, 0.3);
+        }
+    }
+
+    /* Form validation styling */
+    .neon-input:invalid {
+        border-color: #ff0040;
+        box-shadow: 0 0 10px rgba(255, 0, 64, 0.2);
+    }
+
+    .neon-input:valid {
+        border-color: #00ff41;
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+    }
+
+    /* Mobile responsiveness */
+    @@media (max-width: 768px) {
+        .register-container {
+            padding: 1rem;
+        }
+
+        .register-box {
+            padding: 2rem;
+        }
+
+        .neon-title {
+            font-size: 1.8rem;
+        }
+
+        .neon-subtitle {
+            font-size: 0.9rem;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .register-box {
+            padding: 1.5rem;
+        }
+
+        .neon-title {
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+    }
+</style>
